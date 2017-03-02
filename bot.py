@@ -254,7 +254,7 @@ class Bot:
             if comment.created_utc < self.timeLimit:
                 return False
             elif comment.subreddit.display_name == self.botInfo['subreddit']:
-                return (True, comment.id, comment.created_utc, self.timeLimit)
+                return True
         
         return False
 
