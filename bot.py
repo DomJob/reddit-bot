@@ -279,12 +279,6 @@ if __name__ == "__main__":
     else:
         argument = sys.argv[1]
         
-        if argument == "-test":
-            bot = Bot(botInfo)
-            bot.loadReddit()
-            bot.logState()
-
-        
         if argument == "-retry":
             stateFile = '%s/botstate.pkl' % (directory)
             
