@@ -1,4 +1,16 @@
-#Bot for auto-managing subreddits
+#Bot for auto-managing private subreddits
+
+What this bot does:
+
+* Kick users who haven't been active in the subreddit in a specified time frame
+
+* Add random users to replace them up to a certain amount of members
+
+* Give a numbered flair (in order) to every member based
+
+Why:
+
+* not?
 
 How to set this bot up:
 
