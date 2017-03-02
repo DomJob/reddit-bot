@@ -73,7 +73,7 @@ class Bot:
         numberOfMembersToAdd = int(self.botInfo['membercap']) - len(self.memberList) + len(self.toBeKicked)
         self.log("Getting %d new members" % numberOfMembersToAdd)
         numberPicked = 0
-        for comment in self.reddit.subreddit("all").stream.comments():
+        for comment in self.reddit.subreddit("all").comments():
             username = str(comment.author)
             
             if 'bot' in username.lower():
