@@ -1,0 +1,12 @@
+; rename this file to praw.ini
+[bot]
+client_id     = BOT'S APP ID 
+client_secret = BOT'S APP SECRET 
+username      = BOT'S USERNAME
+password      = BOT'S PASSWORD
+user_agent    = Automatic script to manage /r/[subreddit]
+[config]
+subreddit     = [subreddit]
+hour_limit    = 168
+membercap     = 100
+testing       = False
