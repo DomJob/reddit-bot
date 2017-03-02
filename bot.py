@@ -162,7 +162,11 @@ class Bot:
     def loadReddit(self):
         self.log("Loading reddit...", False)
         
-        self.reddit = praw.Reddit('bot')
+        self.reddit = praw.Reddit(client_id=botInfo['bot']['client_id'],
+                                    client_secret=botInfo['bot']['client_secret'],
+                                    user_agent=botInfo['bot']['user_agent'],
+                                    username=botInfo['bot']['username'],
+                                    password=botInfo['bot']['password'])
         self.subreddit = self.reddit.subreddit(self.botInfo['subreddit'])
         
         self.log("done")
@@ -173,7 +177,7 @@ class Bot:
         
         for member in self.subreddit.contributor(limit=None):
             username = str(member)
-            if username not in [self.botInfo['bot_name']]: # Add users in this list to whitelist them
+            if username not in [self.botInfo['bot']['username']]: # Add users in this list to whitelist them
                 memberList.append(username)
         
         memberList.reverse()
@@ -270,7 +274,7 @@ config.read(directory+'/praw.ini')
 
 botInfo = dict(config._sections['config'])
 botInfo['directory'] = directory
-botInfo['bot_name'] = config['bot']['username']
+botInfo['bot'] = dict(config._sections['bot'])
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
