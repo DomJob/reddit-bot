@@ -1,5 +1,9 @@
 import praw, random, time, pickle, sys, os, configparser, datetime
 
+if datetime.datetime.now().day % 5 != 0:
+    print("Day not divisible by 5, terminating.")
+    sys.exit()
+    
 class Bot:
     def __init__(self, botInfo):
         self.botInfo = botInfo
