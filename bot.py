@@ -26,7 +26,6 @@ class Bot:
         self.loadReddit()
         
         while self.todoList != []:
-            self.logState()
             action = self.todoList[0]
             self.log("Next action: %s" % action)
             
@@ -44,7 +43,8 @@ class Bot:
                 self.postRecap()
             
             self.todoList.pop(0)
-            
+            self.logState()
+    
     def getInactiveMembers(self):
         self.log("Getting list of inactive members...")
         self.memberList = self.getMemberList()
@@ -269,6 +269,8 @@ class Bot:
         date = time.strftime('%Y-%m-%d', time.gmtime())
         open('%s/logs/%s.log' % (self.directory, date),'a').write(toLog)
 
+
+
         
 directory = os.path.dirname(os.path.realpath(__file__))
         
@@ -278,6 +280,11 @@ config.read(directory+'/praw.ini')
 botInfo = dict(config._sections['config'])
 botInfo['directory'] = directory
 botInfo['bot'] = dict(config._sections['bot'])
+
+try:
+    os.mkdir(directory+"/logs")
+except:
+    pass
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
