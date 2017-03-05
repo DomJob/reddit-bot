@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import praw, random, time, pickle, sys, os, configparser, datetime
 
 if datetime.datetime.now().day % 5 != 0:
