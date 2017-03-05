@@ -181,7 +181,7 @@ class Bot:
         
         for member in self.subreddit.contributor(limit=None):
             username = str(member)
-            if username not in ['Kovmar',self.botInfo['bot']['username']]: # Add users in this list to whitelist them
+            if username not in ['Kovmar',self.botInfo['bot']['username']]:
                 memberList.append(username)
         
         memberList.reverse()
