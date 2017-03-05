@@ -296,8 +296,11 @@ if __name__ == "__main__":
         if argument == "-retry":
             stateFile = '%s/botstate.pkl' % (directory)
             
-            with open(stateFile, 'rb') as file:
-                bot = pickle.load(file)
-            
-            if bot.todoList != []:
-                bot.run()
+            try:
+                with open(stateFile, 'rb') as file:
+                    bot = pickle.load(file)
+                
+                if bot.todoList != []:
+                    bot.run()
+            except:
+                print("No need for bot to restart")
