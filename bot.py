@@ -1,4 +1,4 @@
-import praw, random, time, pickle, sys, os, configparser
+import praw, random, time, pickle, sys, os, configparser, datetime
 
 class Bot:
     def __init__(self, botInfo):
@@ -73,7 +73,7 @@ class Bot:
         numberOfMembersToAdd = int(self.botInfo['membercap']) - len(self.memberList) + len(self.toBeKicked)
         self.log("Getting %d new members" % numberOfMembersToAdd)
         numberPicked = 0
-        for comment in self.reddit.subreddit("all").comments():
+        for comment in self.reddit.subreddit("all").stream.comments():
             username = str(comment.author)
             
             if 'bot' in username.lower():
@@ -98,7 +98,7 @@ class Bot:
             return
         
         for username in self.toBeKicked:
-            self.reddit.subreddit(self.subredditName).contributor.remove(username)
+            self.subreddit.contributor.remove(username)
             self.flairUser(username, 'Kicked', 'kicked')
             self.log("Kicked /u/%s" % username)
         
@@ -108,7 +108,7 @@ class Bot:
             return
             
         for username in self.toBeAdded:
-            self.reddit.subreddit(self.subredditName).contributor.add(username)
+            self.subreddit.contributor.add(username)
             self.log("  Added /u/%s" % username)
         
     def flairUsers(self):
@@ -156,7 +156,7 @@ class Bot:
         if self.testing:
             return
         
-        self.log("Flairing /u/%s to %s - CSS %s" (username, flairText, flairCSS) )
+        self.log("Flairing /u/%s to %s - CSS %s" % (username, flairText, flairCSS) )
         self.subreddit.flair.set(username, flairText, flairCSS)
         
     def loadReddit(self):
@@ -177,7 +177,7 @@ class Bot:
         
         for member in self.subreddit.contributor(limit=None):
             username = str(member)
-            if username not in [self.botInfo['bot']['username']]: # Add users in this list to whitelist them
+            if username not in ['Kovmar',self.botInfo['bot']['username']]: # Add users in this list to whitelist them
                 memberList.append(username)
         
         memberList.reverse()
@@ -189,7 +189,7 @@ class Bot:
         
         self.log(" Getting recent submissions...")
         counter = 0
-        for submission in self.reddit.subreddit(self.botInfo['subreddit']).new(limit=1000):
+        for submission in self.subreddit.new(limit=1000):
             counter += 1
             author = str(submission.author)
             
@@ -206,7 +206,7 @@ class Bot:
         self.log(" Getting recent comments")
         
         counter = 0
-        for comment in self.reddit.subreddit(self.botInfo['subreddit']).comments(limit=1000):
+        for comment in self.subreddit.comments(limit=1000):
             counter += 1
             author = str(comment.author)
             
@@ -254,7 +254,7 @@ class Bot:
             if comment.created_utc < self.timeLimit:
                 return False
             elif comment.subreddit.display_name == self.botInfo['subreddit']:
-                return True
+                return (True, comment.id, comment.created_utc, self.timeLimit)
         
         return False
 
@@ -263,9 +263,12 @@ class Bot:
         toLog = "%s : %s" % (currentTime, message)
         if endLine:
             print(toLog)
+            toLog += "\n"
         else:
             print(toLog, end=' ')
-        
+        date = time.strftime('%Y-%m-%d', time.gmtime())
+        open('%s/logs/%s.log' % (self.directory, date),'a').write(toLog)
+
         
 directory = os.path.dirname(os.path.realpath(__file__))
         
