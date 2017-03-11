@@ -105,7 +105,7 @@ class Bot:
         
         for username in self.toBeKicked:
             self.subreddit.contributor.remove(username)
-            self.flairUser(username, 'Kicked', 'kicked')
+            self.flairUser(username, '[K]', 'kicked')
             self.log("Kicked /u/%s" % username)
         
     def addUsers(self):
